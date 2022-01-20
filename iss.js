@@ -24,9 +24,9 @@ const fetchMyIP = (callback) => {
     }
 
     const data = JSON.parse(body);
-    console.log(data);
+    // console.log(data);
 
-    callback(null, data);
+    callback(null, data.ip);
 
   });
 };
@@ -48,7 +48,7 @@ const fetchCoordsByIP = (ip, callback) =>{
     }
 
     const data = JSON.parse(body);
-    console.log(data);
+    // console.log(data);
 
     callback(null, data);
 
@@ -72,7 +72,7 @@ const fetchISSFlyOverTimes = function(coords, callback) {
     }
 
     const data = JSON.parse(body);
-    console.log(data.response);
+    // console.log(data.response);
 
     callback(null, data.response);
 
@@ -83,9 +83,27 @@ const fetchISSFlyOverTimes = function(coords, callback) {
 
 const nextISSTimesForMyLocation = (callback) => {
   // empty for now
+  fetchMyIP((err1, ip)=>{
+    if(err1){
+      console.log("error1: ", err1)
+      return;
+    }
 
+    fetchCoordsByIP(ip, (err2, coord)=>{
+      if(err2){
+        console.log("error2: ", err2)
+        return
+      }
 
-
+      fetchISSFlyOverTimes(coord, (err3, data)=>{
+        if(err3){
+          console.log("error3: ",err3)
+          return
+        }
+        callback(null, data)
+      })
+    })
+  })
 }
 
 
