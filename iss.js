@@ -57,7 +57,7 @@ const fetchCoordsByIP = (ip, callback) =>{
 };
 
 const fetchISSFlyOverTimes = function(coords, callback) {
-  flyOverURL = `https://iss-pass.herokuapp.com/json/?lat=${coords.latitude}&lon=&${coords.longitude}`;
+  const flyOverURL = `https://iss-pass.herokuapp.com/json/?lat=${coords.latitude}&lon=&${coords.longitude}`;
 
   request.get(flyOverURL, (err, res, body)=>{
     if (err) {
@@ -84,27 +84,27 @@ const fetchISSFlyOverTimes = function(coords, callback) {
 const nextISSTimesForMyLocation = (callback) => {
   // empty for now
   fetchMyIP((err1, ip)=>{
-    if(err1){
-      console.log("error1: ", err1)
+    if (err1) {
+      console.log("error1: ", err1);
       return;
     }
 
     fetchCoordsByIP(ip, (err2, coord)=>{
-      if(err2){
-        console.log("error2: ", err2)
-        return
+      if (err2) {
+        console.log("error2: ", err2);
+        return;
       }
 
       fetchISSFlyOverTimes(coord, (err3, data)=>{
-        if(err3){
-          console.log("error3: ",err3)
-          return
+        if (err3) {
+          console.log("error3: ",err3);
+          return;
         }
-        callback(null, data)
-      })
-    })
-  })
-}
+        callback(null, data);
+      });
+    });
+  });
+};
 
 
 module.exports = { nextISSTimesForMyLocation};
